@@ -14,9 +14,9 @@ func main() {
 	adder := adding.NewService(s)
 	listing := listing.NewService(s)
 
-	adder.AddTicket(adding.Ticket{Content: "ok"})
-	err := adder.AddTicket(adding.Ticket{Content: "ok"})
+	adder.AddPost(adding.Post{Content: "ok"})
+	err := adder.AddPost(adding.Post{Content: "ok"})
 	log.Printf("%v\n", err)
-	l, _ := listing.GetAllTickets()
+	l, _ := listing.GetAllPosts()
 	log.Printf("%v\n", l)
 }

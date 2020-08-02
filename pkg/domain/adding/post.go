@@ -1,6 +1,6 @@
 package adding
 
-// Ticket basic ticket struct
-type Ticket struct {
+// Post basic post struct
+type Post struct {
 	Content string `json:"content"`
 }

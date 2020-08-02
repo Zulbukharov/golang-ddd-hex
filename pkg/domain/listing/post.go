@@ -1,7 +1,7 @@
 package listing
 
-// Ticket defines the properties of a ticket to be listed
-type Ticket struct {
+// Post defines the properties of a Post to be listed
+type Post struct {
 	ID      uint   `json:"id"`
 	Content string `json:"content"`
 }

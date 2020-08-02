@@ -8,14 +8,14 @@ type Event int
 const (
 	// Done means finished processing successfully
 	Done Event = iota
-	// TicketAlreadyExist means the given beer is a duplicate of an existing one
-	TicketAlreadyExist
+	// PostAlreadyExist means the given beer is a duplicate of an existing one
+	PostAlreadyExist
 	// Failed means processing did not finish successfully
 	Failed
 )
 
 // ErrDuplicate defines the error message
-var ErrDuplicate = fmt.Errorf("Ticket already exist")
+var ErrDuplicate = fmt.Errorf("Post already exist")
 
 // GetMeaning returns string represenation of event
 func (e Event) GetMeaning() string {
@@ -25,22 +25,22 @@ func (e Event) GetMeaning() string {
 	switch e {
 	case Done:
 		mean = "Done"
-	case TicketAlreadyExist:
-		mean = "Ticket Already Exist"
+	case PostAlreadyExist:
+		mean = "Post Already Exist"
 	case Failed:
 		mean = "Failed"
 	}
 	return mean
 }
 
-// Service provides Ticket adding operations.
+// Service provides Post adding operations.
 type Service interface {
-	AddTicket(Ticket) error
+	AddPost(Post) error
 }
 
-// Repository provides access to Ticket repository.
+// Repository provides access to Post repository.
 type Repository interface {
-	AddTicket(Ticket) error
+	AddPost(Post) error
 }
 
 type service struct {
@@ -52,8 +52,8 @@ func NewService(r Repository) Service {
 	return &service{r}
 }
 
-// AddTicket adds the given Ticket to the database
-func (s *service) AddTicket(u Ticket) error {
+// AddPost adds the given Post to the database
+func (s *service) AddPost(u Post) error {
 	// any validation can be done here
-	return s.tR.AddTicket(u)
+	return s.tR.AddPost(u)
 }

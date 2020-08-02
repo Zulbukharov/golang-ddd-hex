@@ -7,38 +7,38 @@ import (
 
 // Storage Memory keeps data in memory
 type Storage struct {
-	Tickets []Ticket
+	Posts []Post
 }
 
-// AddTicket saves the given Ticket to the repository
-func (s *Storage) AddTicket(u adding.Ticket) error {
+// AddPost saves the given Post to the repository
+func (s *Storage) AddPost(u adding.Post) error {
 
-	for _, e := range s.Tickets {
+	for _, e := range s.Posts {
 		if e.Content == u.Content {
 			return adding.ErrDuplicate
 		}
 	}
 
-	newU := Ticket{
-		ID:      uint(len(s.Tickets) + 1),
+	newU := Post{
+		ID:      uint(len(s.Posts) + 1),
 		Content: u.Content,
 	}
-	s.Tickets = append(s.Tickets, newU)
+	s.Posts = append(s.Posts, newU)
 	return nil
 }
 
-// GetAllTickets returns all Tickets from the storage
-func (s *Storage) GetAllTickets() ([]listing.Ticket, error) {
-	var tickets []listing.Ticket
+// GetAllPosts returns all Posts from the storage
+func (s *Storage) GetAllPosts() ([]listing.Post, error) {
+	var Posts []listing.Post
 
-	for i := range s.Tickets {
-		ticket := listing.Ticket{
-			ID:      s.Tickets[i].ID,
-			Content: s.Tickets[i].Content,
+	for i := range s.Posts {
+		Post := listing.Post{
+			ID:      s.Posts[i].ID,
+			Content: s.Posts[i].Content,
 		}
 
-		tickets = append(tickets, ticket)
+		Posts = append(Posts, Post)
 	}
 
-	return tickets, nil
+	return Posts, nil
 }

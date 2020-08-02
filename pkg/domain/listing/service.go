@@ -1,14 +1,14 @@
 package listing
 
-// Service provides Ticket listing operations.
+// Service provides Post listing operations.
 type Service interface {
-	GetAllTickets() ([]Ticket, error)
+	GetAllPosts() ([]Post, error)
 }
 
-// Repository provides access to Ticket repository.
+// Repository provides access to Post repository.
 type Repository interface {
-	// GetAllTickets returns all tickets saved in storage.
-	GetAllTickets() ([]Ticket, error)
+	// GetAllPosts returns all Posts saved in storage.
+	GetAllPosts() ([]Post, error)
 }
 
 type service struct {
@@ -20,7 +20,7 @@ func NewService(r Repository) Service {
 	return &service{r}
 }
 
-// GetAllTickets returns all Tickets from the storage
-func (s *service) GetAllTickets() ([]Ticket, error) {
-	return s.tR.GetAllTickets()
+// GetAllPosts returns all Posts from the storage
+func (s *service) GetAllPosts() ([]Post, error) {
+	return s.tR.GetAllPosts()
 }

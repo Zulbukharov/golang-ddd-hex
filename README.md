@@ -6,6 +6,11 @@
 ## Status:
 	in progress
 
+## Run:
+```sh
+go build cmd/boilerplate/main.go
+```
+
 ## Goals: good structure goal
 
 - consistent.

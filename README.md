@@ -1,4 +1,7 @@
-# Golang demo api
+# Golang DDD+HEX demo api
+
+## Status:
+	in progress
 
 ## Goals: good structure goal
 

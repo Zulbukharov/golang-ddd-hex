@@ -29,7 +29,7 @@ func (s *Storage) AddPost(u adding.Post) error {
 
 // GetAllPosts returns all Posts from the storage
 func (s *Storage) GetAllPosts() ([]listing.Post, error) {
-	var Posts []listing.Post
+	var posts []listing.Post
 
 	for i := range s.Posts {
 		Post := listing.Post{
@@ -37,8 +37,8 @@ func (s *Storage) GetAllPosts() ([]listing.Post, error) {
 			Content: s.Posts[i].Content,
 		}
 
-		Posts = append(Posts, Post)
+		posts = append(posts, Post)
 	}
 
-	return Posts, nil
+	return posts, nil
 }

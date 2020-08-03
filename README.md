@@ -28,12 +28,16 @@ go build cmd/boilerplate/main.go
 
 ## Example
 
+
 ```sh
 # add new post
 curl -X POST "http://localhost:8000/api/post" -H "accept: application/json" -H "Content-Type: application/json" -d '{"content": "hello cruel world"}'
 
 # get all posts
 curl -X GET "http://localhost:8000/api/posts" -H "accept: application/json"
+
+# migrate
+migrate -source file://$PWD/db/migrations -database "postgres://adm:1234@localhost:5432/alem?sslmode=disable" up
 ```
 
 ![](https://visitor-badge.laobi.icu/badge?page_id=Zulbukharov.golang-ddd-hex)

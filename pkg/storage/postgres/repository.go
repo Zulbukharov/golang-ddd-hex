@@ -5,9 +5,6 @@ import (
 	"fmt"
 
 	_ "github.com/lib/pq"
-
-	"github.com/Zulbukharov/golang-ddd-hex/pkg/domain/adding"
-	"github.com/Zulbukharov/golang-ddd-hex/pkg/domain/listing"
 )
 
 // Storage keeps data in postgres db
@@ -31,43 +28,4 @@ func NewStorage(host, port, user, password, dbName string) (*Storage, error) {
 	}
 
 	return &Storage{db}, nil
-}
-
-// AddPost saves the given Post to the repository
-func (s *Storage) AddPost(u adding.Post) error {
-	_, err := s.db.Exec("INSERT INTO posts(content) VALUES($1);", u.Content)
-	if err != nil {
-		return adding.ErrDuplicate
-	}
-	return nil
-}
-
-// GetAllPosts returns all Posts from the storage
-func (s *Storage) GetAllPosts() ([]listing.Post, error) {
-	var posts []listing.Post
-
-	var (
-		id      uint
-		content string
-	)
-
-	rows, err := s.db.Query("SELECT id, content FROM posts")
-	if err != nil {
-		return nil, err
-	}
-	defer rows.Close()
-	for rows.Next() {
-		err := rows.Scan(&id, &content)
-		if err != nil {
-			return nil, err
-		}
-
-		posts = append(posts, listing.Post{ID: id, Content: content})
-	}
-	err = rows.Err()
-	if err != nil {
-		return nil, err
-	}
-
-	return posts, nil
 }

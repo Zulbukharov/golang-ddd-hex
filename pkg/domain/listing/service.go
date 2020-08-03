@@ -1,5 +1,7 @@
 package listing
 
+import "log"
+
 // Service provides Post listing operations.
 type Service interface {
 	GetAllPosts() ([]Post, error)
@@ -22,5 +24,6 @@ func NewService(r Repository) Service {
 
 // GetAllPosts returns all Posts from the storage
 func (s *service) GetAllPosts() ([]Post, error) {
+	log.Printf("service get all posts\n")
 	return s.tR.GetAllPosts()
 }

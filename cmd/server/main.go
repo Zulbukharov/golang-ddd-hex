@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"github.com/Zulbukharov/golang-ddd-hex/pkg/domain/login"
 	"log"
 	"net/http"
 
@@ -19,11 +20,13 @@ func main() {
 	}
 	adder := adding.NewService(s)
 	listing := listing.NewService(s)
+	login := login.NewService(s)
 	postHandler := rest.NewPostHandler(listing, adder)
+	userHandler := rest.NewUserHandler(login)
 
 	server := &http.Server{
 		Addr:    fmt.Sprint(":8000"),
-		Handler: rest.Route(postHandler),
+		Handler: rest.Route(postHandler, userHandler),
 	}
 	log.Printf("Starting HTTP Server. Listening at %q", server.Addr)
 	if err := server.ListenAndServe(); err != nil {

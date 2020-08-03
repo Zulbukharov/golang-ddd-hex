@@ -24,6 +24,7 @@ func (s *Storage) AddPost(u adding.Post) error {
 
 // GetAllPosts returns all Posts from the storage
 func (s *Storage) GetAllPosts() ([]listing.Post, error) {
+	log.Printf("Storage get all posts")
 	posts := make([]listing.Post, 0)
 
 	var (

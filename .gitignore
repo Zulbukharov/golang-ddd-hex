@@ -2,3 +2,4 @@ go.sum
 build/
 main
 .idea/
+bin/

@@ -36,7 +36,8 @@ func Route(h PostHandler, u UserHandler) http.Handler {
 	api.Handle("/posts", &apiHandler{ctx, middleware(http.HandlerFunc(h.GetPosts))}).Methods("GET")
 	api.HandleFunc("/post", h.AddPost).Methods("POST")
 
-	api.HandleFunc("/login", u.Login).Methods("GET")
+	api.HandleFunc("/login", u.Login).Methods("POST")
+	api.HandleFunc("/register", u.Register).Methods("POST")
 
 	http.Handle("/", router)
 	return router

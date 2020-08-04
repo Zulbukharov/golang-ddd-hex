@@ -1,6 +1,7 @@
 package postgres
 
 import (
+	"database/sql"
 	"github.com/Zulbukharov/golang-ddd-hex/pkg/domain/adding"
 	"github.com/Zulbukharov/golang-ddd-hex/pkg/domain/listing"
 	"log"
@@ -12,8 +13,18 @@ type Post struct {
 	Content string `json:"content"`
 }
 
+// PostRepository keeps data in postgres db
+type PostRepository struct {
+	db *sql.DB
+}
+
+// NewPostRepository return a new repo
+func NewPostRepository(db *sql.DB) *PostRepository {
+	return &PostRepository{db}
+}
+
 // AddPost saves the given Post to the repository
-func (s *Storage) AddPost(u adding.Post) error {
+func (s *PostRepository) AddPost(u adding.Post) error {
 	log.Printf("Add post storage")
 	_, err := s.db.Exec("INSERT INTO posts(content) VALUES($1);", u.Content)
 	if err != nil {
@@ -23,7 +34,7 @@ func (s *Storage) AddPost(u adding.Post) error {
 }
 
 // GetAllPosts returns all Posts from the storage
-func (s *Storage) GetAllPosts() ([]listing.Post, error) {
+func (s *PostRepository) GetAllPosts() ([]listing.Post, error) {
 	log.Printf("Storage get all posts")
 	posts := make([]listing.Post, 0)
 

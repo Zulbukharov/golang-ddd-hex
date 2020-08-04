@@ -8,21 +8,27 @@ import (
 
 	"github.com/Zulbukharov/golang-ddd-hex/pkg/domain/adding"
 	"github.com/Zulbukharov/golang-ddd-hex/pkg/domain/listing"
+	"github.com/Zulbukharov/golang-ddd-hex/pkg/domain/register"
 	"github.com/Zulbukharov/golang-ddd-hex/pkg/http/rest"
 	"github.com/Zulbukharov/golang-ddd-hex/pkg/storage/postgres"
 )
 
 func main() {
-	s, err := postgres.NewStorage("localhost", "5432", "adm", "1234", "blog")
+	c, err := postgres.NewStorage("localhost", "5432", "adm", "1234", "blog")
 	if err != nil {
 		log.Printf("%v", err)
 		return
 	}
-	adder := adding.NewService(s)
-	listing := listing.NewService(s)
-	login := login.NewService(s)
+	postRepo := postgres.NewPostRepository(c)
+	userRepo := postgres.NewUserRepository(c)
+
+	adder := adding.NewService(postRepo)
+	listing := listing.NewService(postRepo)
+	login := login.NewService(userRepo)
+	register := register.NewService(userRepo)
+
 	postHandler := rest.NewPostHandler(listing, adder)
-	userHandler := rest.NewUserHandler(login)
+	userHandler := rest.NewUserHandler(login, register)
 
 	server := &http.Server{
 		Addr:    fmt.Sprint(":8000"),

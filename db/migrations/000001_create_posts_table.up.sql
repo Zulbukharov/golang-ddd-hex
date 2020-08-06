@@ -1,4 +1,4 @@
 CREATE TABLE posts (
-  id      serial NOT NULL,
+  id      SERIAL NOT NULL UNIQUE PRIMARY KEY,
   content VARCHAR not NULL
 );

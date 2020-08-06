@@ -2,14 +2,14 @@ package main
 
 import (
 	"fmt"
-	"github.com/Zulbukharov/golang-ddd-hex/pkg/domain/login"
 	"log"
 	"net/http"
 
-	"github.com/Zulbukharov/golang-ddd-hex/pkg/domain/adding"
-	"github.com/Zulbukharov/golang-ddd-hex/pkg/domain/listing"
-	"github.com/Zulbukharov/golang-ddd-hex/pkg/domain/register"
+	"github.com/Zulbukharov/golang-ddd-hex/pkg/adding"
 	"github.com/Zulbukharov/golang-ddd-hex/pkg/http/rest"
+	"github.com/Zulbukharov/golang-ddd-hex/pkg/listing"
+	"github.com/Zulbukharov/golang-ddd-hex/pkg/login"
+	"github.com/Zulbukharov/golang-ddd-hex/pkg/register"
 	"github.com/Zulbukharov/golang-ddd-hex/pkg/storage/postgres"
 )
 

@@ -2,8 +2,8 @@ package rest
 
 import (
 	"encoding/json"
-	"github.com/Zulbukharov/golang-ddd-hex/pkg/domain/login"
-	"github.com/Zulbukharov/golang-ddd-hex/pkg/domain/register"
+	"github.com/Zulbukharov/golang-ddd-hex/pkg/login"
+	"github.com/Zulbukharov/golang-ddd-hex/pkg/register"
 	"net/http"
 )
 

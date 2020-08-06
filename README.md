@@ -1,15 +1,30 @@
 # Golang DDD+HEX demo blog api
 
-## Dependencies:
-- [pgx](https://github.com/jackc/pgx)
+- tactical design
+    entities
+        an object defined primarily by its identity
+    value objects
+        immutable
+    repositories
+        how will communicate with storage
+    services
+        corresponds application use cases
+        example:
+        oauth -> session -> user policy -> adding post
 
-## Status:
-	in progress
-
-## Run:
-```sh
-go build cmd/boilerplate/main.go
-```
+context: blogpost
+ubiquitous language: author, post, vote, comments, storage
+entities: author, post, votes, comments
+value objects: it can be part of entity object (author, voter, commenter)
+aggregates: PostAuthor, PostVotes, PostComments
+service: 
+    stateless operations 
+        post adder / listing,
+        vote increment / decrement / count
+        comment adder / listing
+        author register / login 
+events: can affect to the system (errors, logs)
+repository: facade over backend
 
 ## Goals: good structure goal
 
@@ -20,11 +35,23 @@ go build cmd/boilerplate/main.go
 
 ## Project Specs
 
-- users can add a post.
-- users can add a comment for the post.
-- users can vote for the post.
-- users can list all posts with votes.
-- users can list all reviews for the post.
+- author can add a post.
+- author can add a comment for the post.
+- author can vote for the post.
+- author can list all posts with votes.
+- author can list all reviews for the post.
+
+
+## Dependencies:
+- [pgx](https://github.com/jackc/pgx)
+
+## Status:
+	in progress
+
+## Run:
+```sh
+go build cmd/boilerplate/main.go
+```
 
 ## Example
 

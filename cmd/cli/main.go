@@ -3,7 +3,7 @@ package main
 import (
 	"github.com/Zulbukharov/golang-ddd-hex/pkg/storage/memory"
 
-	"github.com/Zulbukharov/golang-ddd-hex/pkg/domain/adding"
+	"github.com/Zulbukharov/golang-ddd-hex/pkg/adding"
 )
 
 func main() {

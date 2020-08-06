@@ -5,8 +5,8 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/Zulbukharov/golang-ddd-hex/pkg/domain/adding"
-	"github.com/Zulbukharov/golang-ddd-hex/pkg/domain/listing"
+	"github.com/Zulbukharov/golang-ddd-hex/pkg/adding"
+	"github.com/Zulbukharov/golang-ddd-hex/pkg/listing"
 )
 
 // PostHandler provides access to Post api methods.

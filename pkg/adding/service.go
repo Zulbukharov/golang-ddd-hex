@@ -58,6 +58,7 @@ func NewService(r Repository) Service {
 // AddPost adds the given Post to the database
 func (s *service) AddPost(u Post) error {
 	// any validation can be done here
+
 	log.Printf("Add post service\n")
 	return s.tR.AddPost(u)
 }

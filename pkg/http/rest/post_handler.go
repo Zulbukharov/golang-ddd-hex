@@ -42,7 +42,13 @@ func NewPostHandler(l listing.Service, a adding.Service, d deleting.Service, u u
 	}
 }
 
-// GetPosts handler for GET /api/posts requests
+// GetPosts godoc
+// @Summary List posts
+// @Description get posts
+// @Accept  json
+// @Produce json
+// @Success 200 {array} listing.Post
+// @Router /posts [get]
 func (h postHandler) GetPosts(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	list, err := h.l.GetAllPosts()

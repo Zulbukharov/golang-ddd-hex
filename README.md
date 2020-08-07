@@ -55,6 +55,7 @@ go build cmd/boilerplate/main.go
 
 ## Example
 
+http://localhost:8000/swagger/index.html
 
 ```sh
 # add new post
@@ -65,6 +66,8 @@ curl -X GET "http://localhost:8000/api/posts" -H "accept: application/json"
 
 # migrate
 migrate -source file://$PWD/db/migrations -database "postgres://adm:1234@localhost:5432/alem?sslmode=disable" up
+
+swag init -g cmd/server/main.go --parseDependency --parseInternal -o ./api
 ```
 
 ## Links

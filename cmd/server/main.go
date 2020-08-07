@@ -17,6 +17,19 @@ import (
 	"github.com/Zulbukharov/golang-ddd-hex/pkg/storage/postgres"
 )
 
+// @title Blogspot API
+// @version 1.0
+// @description This is a sample blogspot server.
+
+// @contact.name Zulbukharov Abylaikhan
+// @contact.email l1pt0n1905@gmail.com
+
+// @license.name MIT License
+// @license.url https://github.com/Zulbukharov/golang-ddd-hex/blob/master/LICENSE
+
+// @host localhost:8080
+// @BasePath /api
+
 func main() {
 	c, err := postgres.NewStorage("localhost", "5432", "adm", "1234", "blog")
 	if err != nil {

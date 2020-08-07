@@ -1,0 +1,45 @@
+basePath: /api
+definitions:
+  listing.Post:
+    properties:
+      author_id:
+        type: integer
+      content:
+        type: string
+      id:
+        type: integer
+    type: object
+host: localhost:8080
+info:
+  contact:
+    email: l1pt0n1905@gmail.com
+    name: Zulbukharov Abylaikhan
+  description: This is a sample blogspot server.
+  license:
+    name: MIT License
+    url: https://github.com/Zulbukharov/golang-ddd-hex/blob/master/LICENSE
+  title: Blogspot API
+  version: "1.0"
+paths:
+  /api/posts:
+    get:
+      consumes:
+      - application/json
+      description: get posts
+      parameters:
+      - description: Account ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/listing.Post'
+            type: array
+      summary: List posts
+swagger: "2.0"

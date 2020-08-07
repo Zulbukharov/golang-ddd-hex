@@ -1,8 +1,12 @@
 package rest
 
 import (
+	"encoding/json"
+	_ "github.com/Zulbukharov/golang-ddd-hex/api"
 	"github.com/Zulbukharov/golang-ddd-hex/pkg/http/rest/middleware"
 	"github.com/gorilla/mux"
+	"github.com/swaggo/http-swagger"
+	"log"
 	"net/http"
 )
 
@@ -11,14 +15,21 @@ func Route(h PostHandler, u UserHandler, m middleware.Rules) http.Handler {
 	router := mux.NewRouter()
 	router.Use(accessControl)
 
+	router.PathPrefix("/swagger/").Handler(httpSwagger.Handler(
+		httpSwagger.URL("http://localhost:8000/swagger/doc.json"), //The url pointing to API definition
+		httpSwagger.DeepLinking(true),
+		httpSwagger.DocExpansion("none"),
+		httpSwagger.DomID("#swagger-ui"),
+	))
+
 	api := router.PathPrefix("/api").Subrouter()
 	api.HandleFunc("/posts", h.GetPosts).Methods("GET")
 	//api.Handle("/post/{id}", m.LoggedIn(http.HandlerFunc(h.AddPost))).Methods("GET")
-	api.Handle("/post", m.LoggedIn(http.HandlerFunc(h.AddPost))).Methods("POST")
+	//api.Handle("/post", m.LoggedIn(http.HandlerFunc(h.AddPost))).Methods("POST")
 	//api.Handle("/post", m.LoggedIn(http.HandlerFunc(h.DeletePost))).Methods("PUT")
-	api.Handle("/post/{id}", m.LoggedIn(http.HandlerFunc(h.DeletePost))).Methods("DELETE")
-	api.HandleFunc("/login", u.Login).Methods("POST")
-	api.HandleFunc("/register", u.Register).Methods("POST")
+	//api.Handle("/post/{id}", m.LoggedIn(http.HandlerFunc(h.DeletePost))).Methods("DELETE")
+	//api.HandleFunc("/login", u.Login).Methods("POST")
+	//api.HandleFunc("/register", u.Register).Methods("POST")
 
 	http.Handle("/", router)
 	return router
@@ -36,4 +47,23 @@ func accessControl(h http.Handler) http.Handler {
 
 		h.ServeHTTP(w, r)
 	})
+}
+
+func respHandler(h func(http.ResponseWriter, *http.Request) (interface{}, int, error)) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		data, status, err := h(w, r)
+		if err != nil {
+			data = struct {
+				Error string `json: "error"`
+			}{
+				Error: err.Error(),
+			}
+		}
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(status)
+		err = json.NewEncoder(w).Encode(data)
+		if err != nil {
+			log.Printf("could not encode response to output: %v", err)
+		}
+	}
 }

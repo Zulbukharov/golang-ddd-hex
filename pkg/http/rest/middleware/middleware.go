@@ -32,7 +32,6 @@ func (m rules) LoggedIn(next http.Handler) http.Handler {
 			http.Error(w, http.StatusText(http.StatusForbidden), http.StatusForbidden)
 			return
 		}
-
 		ctx := context.WithValue(r.Context(), "credentials", t)
 		next.ServeHTTP(w, r.WithContext(ctx))
 	})

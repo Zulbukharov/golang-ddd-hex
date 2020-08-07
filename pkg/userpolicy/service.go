@@ -2,12 +2,20 @@ package userpolicy
 
 // Service ...
 type Service interface {
-	CanAddPost(userID uint) bool
-	//isAuthentificated(user User) bool
+	IsOwnerOfPost(u User, postID uint) bool
+	//SetAdminRole(u User)
+	//SetAuthorRole(u User)
+	//SetUserRole(u User)
+
+	//CanDeletePost(u User, postID uint) bool
+	//CanDeleteComment(User) bool
+	//CanReact(User) bool
 }
 
 type Repository interface {
-	CanAddPost(userID uint) bool
+	IsOwnerOfPost(u User, postID uint) bool
+	//CanDeleteComment(User) bool
+	//CanReact(User) bool
 }
 
 type service struct {
@@ -20,23 +28,6 @@ func NewService(r Repository) Service {
 }
 
 // CanAddPost ...
-func (s *service) CanAddPost(userID uint) bool {
-	return s.authR.CanAddPost(userID)
+func (s *service) IsOwnerOfPost(u User, postID uint) bool {
+	return s.authR.IsOwnerOfPost(u, postID)
 }
-
-//public MyBusinessProcess performSomeStuff(MyBusinessProcess input) {
-//// We assume SecurityContext is a thread-local class that contains information
-//// about the current user.
-//if (!SecurityContext.isLoggedOn()) { //
-//throw new AuthenticationException("No user logged on");
-//}
-//if (!SecurityContext.holdsRole("ROLE_BUSINESS_PROCESSOR")) { //
-//throw new AccessDeniedException("Insufficient privileges");
-//}
-//
-//var customer = customerRepository.findById(input.getCustomerId())
-//.orElseThrow( () -> new CustomerNotFoundException(input.getCustomerId()));
-//var someResult = myDomainService.performABusinessOperation(customer);
-//customer = customerRepository.save(customer);
-//return input.updateMyBusinessProcessWithResult(someResult);
-//}

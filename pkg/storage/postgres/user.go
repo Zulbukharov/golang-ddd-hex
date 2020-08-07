@@ -4,14 +4,14 @@ import (
 	"database/sql"
 	"github.com/Zulbukharov/golang-ddd-hex/pkg/login"
 	"github.com/Zulbukharov/golang-ddd-hex/pkg/register"
-	"log"
 )
 
 // User defines the properties of a User to be listed
 type User struct {
-	ID       uint   `json:"id"`
-	Username string `json:"username"`
-	Password string `json:"password"`
+	ID       uint
+	Username string
+	Password string
+	RoleID   uint
 }
 
 // UserRepository keeps data in postgres db
@@ -25,10 +25,10 @@ func NewUserRepository(db *sql.DB) *UserRepository {
 }
 
 // Login checks the given User
-func (s *UserRepository) Login(u login.User) error {
+func (s *UserRepository) Login(u login.User) (uint, error) {
 	stmt, err := s.db.Prepare("SELECT id, username, password FROM users WHERE username = $1 and password = $2")
 	if err != nil {
-		return err
+		return 0, err
 	}
 	defer stmt.Close()
 
@@ -39,24 +39,19 @@ func (s *UserRepository) Login(u login.User) error {
 	)
 	err = stmt.QueryRow(u.Username, u.Password).Scan(&id, &username, &password)
 	if err != nil {
-		return err
+		return 0, err
 	}
-	log.Printf("id, username, password %d %s %s", id, username, password)
-	return err
+	return id, err
 }
 
-func (s *UserRepository) Register(u register.User) error {
-	stmt, err := s.db.Prepare("INSERT INTO users(username, password) VALUES ($1, $2)")
+func (s *UserRepository) Register(u register.User) (uint, error) {
+	stmt, err := s.db.Prepare("INSERT INTO users(username, password, role_id) VALUES ($1, $2, 1) RETURNING id")
 	if err != nil {
-		return err
+		return 0, err
 	}
 	defer stmt.Close()
 
-	res, err := stmt.Exec(u.Username, u.Password)
-	if err != nil {
-		return err
-	}
-	lastID, err := res.LastInsertId()
-	log.Printf("last user id %d\n", lastID)
-	return err
+	var id uint
+	err = stmt.QueryRow(u.Username, u.Password).Scan(&id)
+	return id, err
 }

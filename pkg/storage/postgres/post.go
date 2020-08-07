@@ -9,8 +9,9 @@ import (
 
 // Post defines the properties of a Post to be listed
 type Post struct {
-	ID      uint   `json:"id"`
-	Content string `json:"content"`
+	ID       uint
+	Content  string
+	AuthorID uint
 }
 
 // PostRepository keeps data in postgres db

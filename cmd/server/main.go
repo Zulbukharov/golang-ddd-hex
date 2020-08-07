@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	auth2 "github.com/Zulbukharov/golang-ddd-hex/pkg/http/rest/auth"
 	"log"
 	"net/http"
 
@@ -27,8 +28,10 @@ func main() {
 	login := login.NewService(userRepo)
 	register := register.NewService(userRepo)
 
+	auth := auth2.NewAuthenticator("ok")
+
 	postHandler := rest.NewPostHandler(listing, adder)
-	userHandler := rest.NewUserHandler(login, register)
+	userHandler := rest.NewUserHandler(login, register, auth)
 
 	server := &http.Server{
 		Addr:    fmt.Sprint(":8000"),

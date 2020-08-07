@@ -2,12 +2,12 @@ package login
 
 // Service ...
 type Service interface {
-	Login(User) error
+	Login(User) (uint, error)
 }
 
 // Repository ...
 type Repository interface {
-	Login(User) error
+	Login(User) (uint, error)
 }
 
 type service struct {
@@ -20,7 +20,7 @@ func NewService(r Repository) Service {
 }
 
 // Login ...
-func (s *service) Login(u User) error {
+func (s *service) Login(u User) (uint, error) {
 	// input validation
 	return s.lR.Login(u)
 }

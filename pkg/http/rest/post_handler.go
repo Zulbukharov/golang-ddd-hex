@@ -2,6 +2,7 @@ package rest
 
 import (
 	"encoding/json"
+	"github.com/Zulbukharov/golang-ddd-hex/pkg/http/rest/auth"
 	"log"
 	"net/http"
 
@@ -54,6 +55,9 @@ func (h postHandler) AddPost(w http.ResponseWriter, r *http.Request) {
 	var post adding.Post
 
 	decoder := json.NewDecoder(r.Body)
+
+	credentials := r.Context().Value("credentials").(*auth.AppClaims)
+	post.AuthorID = credentials.ID
 
 	if err := decoder.Decode(&post); err != nil {
 		http.Error(w, "Failed to parse post", http.StatusBadRequest)

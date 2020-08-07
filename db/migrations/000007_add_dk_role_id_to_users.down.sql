@@ -1,0 +1,6 @@
+BEGIN;
+
+ALTER TABLE users DROP CONSTRAINT fk_role_id_to_users;
+ALTER TABLE users DROP COLUMN IF EXISTS author_id;
+
+COMMIT;

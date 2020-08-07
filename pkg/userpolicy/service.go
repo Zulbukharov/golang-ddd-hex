@@ -2,7 +2,7 @@ package userpolicy
 
 // Service ...
 type Service interface {
-	IsOwnerOfPost(u User, postID uint) bool
+	IsOwnerOfPost(userID uint, postID uint) bool
 	//SetAdminRole(u User)
 	//SetAuthorRole(u User)
 	//SetUserRole(u User)
@@ -13,7 +13,7 @@ type Service interface {
 }
 
 type Repository interface {
-	IsOwnerOfPost(u User, postID uint) bool
+	IsOwnerOfPost(userID uint, postID uint) bool
 	//CanDeleteComment(User) bool
 	//CanReact(User) bool
 }
@@ -28,6 +28,9 @@ func NewService(r Repository) Service {
 }
 
 // CanAddPost ...
-func (s *service) IsOwnerOfPost(u User, postID uint) bool {
-	return s.authR.IsOwnerOfPost(u, postID)
+func (s *service) IsOwnerOfPost(userID uint, postID uint) bool {
+	if userID == 0 || postID == 0 {
+		return false
+	}
+	return s.authR.IsOwnerOfPost(userID, postID)
 }

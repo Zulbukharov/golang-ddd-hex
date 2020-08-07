@@ -4,7 +4,7 @@ package listing
 type Service interface {
 	GetAllPosts() ([]Post, error)
 	// FindPostByID(id)
-	// FindUserPost(id)
+	// FindUserPosts(id)
 }
 
 // Repository provides access to Post repository.

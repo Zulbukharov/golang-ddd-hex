@@ -25,7 +25,13 @@ func NewPostRepository(db *sql.DB) *PostRepository {
 
 // AddPost saves the given Post to the repository
 func (s *PostRepository) AddPost(u adding.Post) error {
-	_, err := s.db.Exec("INSERT INTO posts(content, author_id) VALUES($1, $2);", u.Content, u.AuthorID)
+	stmt, err := s.db.Prepare("INSERT INTO posts(content, author_id) VALUES($1, $2);")
+	if err != nil {
+		return err
+	}
+	defer stmt.Close()
+
+	_, err = stmt.Exec(u.Content, u.AuthorID)
 	if err != nil {
 		return adding.ErrDuplicate
 	}
@@ -61,4 +67,18 @@ func (s *PostRepository) GetAllPosts() ([]listing.Post, error) {
 	}
 
 	return posts, nil
+}
+
+func (s *PostRepository) DeletePost(id uint) error {
+	stmt, err := s.db.Prepare("DELETE FROM posts WHERE id = $1;")
+	if err != nil {
+		return err
+	}
+	defer stmt.Close()
+
+	_, err = stmt.Exec(id)
+	if err != nil {
+		return err
+	}
+	return nil
 }

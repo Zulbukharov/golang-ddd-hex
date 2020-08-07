@@ -9,13 +9,17 @@ import (
 // Route returns an http handler for the api.
 func Route(h PostHandler, u UserHandler, m middleware.Rules) http.Handler {
 	router := mux.NewRouter()
+	router.Use(accessControl)
+
 	api := router.PathPrefix("/api").Subrouter()
 	api.HandleFunc("/posts", h.GetPosts).Methods("GET")
+	//api.Handle("/post/{id}", m.LoggedIn(http.HandlerFunc(h.AddPost))).Methods("GET")
 	api.Handle("/post", m.LoggedIn(http.HandlerFunc(h.AddPost))).Methods("POST")
+	//api.Handle("/post", m.LoggedIn(http.HandlerFunc(h.DeletePost))).Methods("PUT")
+	api.Handle("/post/{id}", m.LoggedIn(http.HandlerFunc(h.DeletePost))).Methods("DELETE")
 	api.HandleFunc("/login", u.Login).Methods("POST")
 	api.HandleFunc("/register", u.Register).Methods("POST")
 
-	router.Use(accessControl)
 	http.Handle("/", router)
 	return router
 }

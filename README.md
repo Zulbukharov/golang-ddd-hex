@@ -77,5 +77,6 @@ https://herbertograca.com/2017/09/14/ports-adapters-architecture/ <br>
 https://blog.fedecarg.com/2009/03/11/domain-driven-design-and-mvc-architectures/#:~:text=According%20to%20Eric%20Evans%2C%20Domain,a%20technology%20or%20a%20methodology.&text=Domain%2Ddriven%20design%20separates%20the,to%20retrieve%20and%20store%20data. <br>
 http://www.newtonmeters.com/blog/domain-driven-design-in-go/ <br>
 https://vaadin.com/learn/tutorials/ddd/ddd_and_hexagonal <br>
+https://www.vinaysahni.com/best-practices-for-a-pragmatic-restful-api <br>
 
 ![](https://visitor-badge.laobi.icu/badge?page_id=Zulbukharov.golang-ddd-hex)

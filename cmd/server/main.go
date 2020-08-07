@@ -2,8 +2,10 @@ package main
 
 import (
 	"fmt"
+	"github.com/Zulbukharov/golang-ddd-hex/pkg/deleting"
 	auth2 "github.com/Zulbukharov/golang-ddd-hex/pkg/http/rest/auth"
 	"github.com/Zulbukharov/golang-ddd-hex/pkg/http/rest/middleware"
+	"github.com/Zulbukharov/golang-ddd-hex/pkg/userpolicy"
 	"log"
 	"net/http"
 
@@ -23,16 +25,19 @@ func main() {
 	}
 	postRepo := postgres.NewPostRepository(c)
 	userRepo := postgres.NewUserRepository(c)
+	userPolicyRepo := postgres.NewUserPolicyRepository(c)
 
 	adder := adding.NewService(postRepo)
 	listing := listing.NewService(postRepo)
+	deleting := deleting.NewService(postRepo)
 	login := login.NewService(userRepo)
 	register := register.NewService(userRepo)
+	userPolicy := userpolicy.NewService(userPolicyRepo)
 
 	auth := auth2.NewAuthenticator("ok")
 	middleware := middleware.NewRules(auth)
 
-	postHandler := rest.NewPostHandler(listing, adder)
+	postHandler := rest.NewPostHandler(listing, adder, deleting, userPolicy)
 	userHandler := rest.NewUserHandler(login, register, auth)
 
 	server := &http.Server{

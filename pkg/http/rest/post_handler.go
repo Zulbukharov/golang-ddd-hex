@@ -3,7 +3,6 @@ package rest
 import (
 	"encoding/json"
 	"github.com/Zulbukharov/golang-ddd-hex/pkg/http/rest/auth"
-	"log"
 	"net/http"
 
 	"github.com/Zulbukharov/golang-ddd-hex/pkg/adding"
@@ -14,7 +13,7 @@ import (
 type PostHandler interface {
 	GetPosts(w http.ResponseWriter, r *http.Request)
 	AddPost(w http.ResponseWriter, r *http.Request)
-	// GetPostByID()
+	// FindPostByID()
 	// UpdatePost()
 	// DeletePost()
 }
@@ -35,13 +34,8 @@ func NewPostHandler(l listing.Service, a adding.Service) PostHandler {
 
 // GetPosts handler for GET /api/posts requests
 func (h postHandler) GetPosts(w http.ResponseWriter, r *http.Request) {
-	z := r.Context().Value("ok")
-	another := r.Context().Value("another one")
-	log.Printf("%d Handler [from ServerHTTP context]\n", z)
-	log.Printf("%d Handler [from middleware context]\n", another)
 	w.Header().Set("Content-Type", "application/json")
 	list, err := h.l.GetAllPosts()
-	log.Printf("postHandler get posts")
 
 	if err != nil {
 		http.Error(w, "Failed to get posts", http.StatusBadRequest)
@@ -55,16 +49,14 @@ func (h postHandler) AddPost(w http.ResponseWriter, r *http.Request) {
 	var post adding.Post
 
 	decoder := json.NewDecoder(r.Body)
-
-	credentials := r.Context().Value("credentials").(*auth.AppClaims)
-	post.AuthorID = credentials.ID
-
 	if err := decoder.Decode(&post); err != nil {
 		http.Error(w, "Failed to parse post", http.StatusBadRequest)
 		return
 	}
 
-	log.Printf("Add post handler")
+	credentials := r.Context().Value("credentials").(*auth.AppClaims)
+	post.AuthorID = credentials.ID
+
 	if err := h.a.AddPost(post); err != nil {
 		http.Error(w, "Failed to add post", http.StatusBadRequest)
 		return

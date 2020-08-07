@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	auth2 "github.com/Zulbukharov/golang-ddd-hex/pkg/http/rest/auth"
+	"github.com/Zulbukharov/golang-ddd-hex/pkg/http/rest/middleware"
 	"log"
 	"net/http"
 
@@ -29,13 +30,14 @@ func main() {
 	register := register.NewService(userRepo)
 
 	auth := auth2.NewAuthenticator("ok")
+	middleware := middleware.NewRules(auth)
 
 	postHandler := rest.NewPostHandler(listing, adder)
 	userHandler := rest.NewUserHandler(login, register, auth)
 
 	server := &http.Server{
 		Addr:    fmt.Sprint(":8000"),
-		Handler: rest.Route(postHandler, userHandler),
+		Handler: rest.Route(postHandler, userHandler, middleware),
 	}
 	log.Printf("Starting HTTP Server. Listening at %q", server.Addr)
 	if err := server.ListenAndServe(); err != nil {

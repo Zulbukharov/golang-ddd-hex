@@ -3,7 +3,8 @@ package listing
 // Service provides Post listing operations.
 type Service interface {
 	GetAllPosts() ([]Post, error)
-	//GetUserPosts(id uint) ([]Post, error)
+	// FindPostByID(id)
+	// FindUserPost(id)
 }
 
 // Repository provides access to Post repository.

@@ -4,7 +4,6 @@ import (
 	"database/sql"
 	"github.com/Zulbukharov/golang-ddd-hex/pkg/adding"
 	"github.com/Zulbukharov/golang-ddd-hex/pkg/listing"
-	"log"
 )
 
 // Post defines the properties of a Post to be listed
@@ -26,7 +25,6 @@ func NewPostRepository(db *sql.DB) *PostRepository {
 
 // AddPost saves the given Post to the repository
 func (s *PostRepository) AddPost(u adding.Post) error {
-	log.Printf("Add post storage")
 	_, err := s.db.Exec("INSERT INTO posts(content, author_id) VALUES($1, $2);", u.Content, u.AuthorID)
 	if err != nil {
 		return adding.ErrDuplicate

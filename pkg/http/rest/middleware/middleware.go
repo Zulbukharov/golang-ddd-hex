@@ -6,8 +6,20 @@ import (
 	"net/http"
 )
 
+type Rules interface {
+	LoggedIn(next http.Handler) http.Handler
+}
+
+type rules struct {
+	auth auth.Authenticator
+}
+
+func NewRules(auth auth.Authenticator) Rules {
+	return &rules{auth}
+}
+
 // LoggedIn simple middleware to push value to the context
-func LoggedIn(next http.Handler) http.Handler {
+func (m rules) LoggedIn(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		credentials, err := r.Cookie("credentials")
 		if err != nil {
@@ -15,8 +27,7 @@ func LoggedIn(next http.Handler) http.Handler {
 			return
 		}
 
-		auth := auth.NewAuthenticator("ok")
-		t, err := auth.ParseToken(credentials.Value)
+		t, err := m.auth.ParseToken(credentials.Value)
 		if err != nil {
 			http.Error(w, http.StatusText(http.StatusForbidden), http.StatusForbidden)
 			return
